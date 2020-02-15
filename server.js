@@ -14,8 +14,6 @@ require("./router/router.js")(app);
 //   initial();
 // });
 
-// require("./router/router.js")(app);
-
 // Create a Server
 var server = app.listen(8080, "127.0.0.1", function() {
   var host = server.address().address;
