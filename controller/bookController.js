@@ -4,7 +4,7 @@ const asyncMiddleware = require("express-async-handler");
 
 exports.addbook = asyncMiddleware(async (req, res) => {
   // Add book to Database
-  await Book.create({
+  const book = await Book.create({
     title: req.body.title,
     author: req.body.author,
     page: req.body.page,
