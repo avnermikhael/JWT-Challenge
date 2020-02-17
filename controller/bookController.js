@@ -11,7 +11,6 @@ exports.addbook = asyncMiddleware(async (req, res) => {
     language: req.body.language,
     publisher_id: req.body.publisher_id
   });
-  console.log("tes error gaes");
   res.status(201).send({
     status: "New book added successfully!"
   });
