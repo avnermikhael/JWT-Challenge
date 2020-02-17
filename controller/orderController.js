@@ -26,7 +26,7 @@ exports.orders = asyncMiddleware(async (req, res) => {
     include: [
       {
         model: Book,
-        attributes: ["title", "author", "pages", "language", "publisher_id"],
+        attributes: ["title", "author", "page", "language", "publisher_id"],
         through: {
           attributes: ["userId", "bookId"]
         }
