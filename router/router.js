@@ -1,5 +1,6 @@
 const verifySignUp = require("./verifySignUp");
 const authJwt = require("./verifyJwtToken");
+const bookAuth = require("./verifyBook");
 const authController = require("../controller/authController.js");
 const userController = require("../controller/userController.js");
 const orderController = require("../controller/orderController.js");
@@ -17,6 +18,7 @@ module.exports = function(app) {
   app.post(
     "/books",
     [authJwt.verifyToken, authJwt.isAdmin],
+    bookAuth.checkDuplicateBookAndAuthor,
     bookController.addbook
   );
 
@@ -24,6 +26,7 @@ module.exports = function(app) {
   app.put(
     "/books/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
+    bookAuth.checkDuplicateBookAndAuthor,
     bookController.updateBook
   );
 
