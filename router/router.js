@@ -9,31 +9,39 @@ const bookController = require("../controller/bookController.js");
 module.exports = function(app) {
   ///////////////////////////////////ini untuk BOOK/////////////////////////////////////////
   /* GET book. */
-  app.get("/books", [authJwt.verifyToken], bookController.showAll);
+  app.get(
+    "/books",
+    // [authJwt.verifyToken],
+    bookController.showAll
+  );
 
   /* GET book by ID. */
-  app.get("/books/:id", [authJwt.verifyToken], bookController.showBook);
+  app.get(
+    "/books/:id",
+    // [authJwt.verifyToken],
+    bookController.showBook
+  );
 
   /* ADD book. */
   app.post(
     "/books",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    bookAuth.checkDuplicateBookAndAuthor,
+    // [authJwt.verifyToken, authJwt.isAdmin],
+    // bookAuth.checkDuplicateBookAndAuthor,
     bookController.addbook
   );
 
   /* UPDATE book. */
   app.put(
     "/books/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    bookAuth.checkDuplicateBookAndAuthor,
+    // [authJwt.verifyToken, authJwt.isAdmin],
+    // bookAuth.checkDuplicateBookAndAuthor,
     bookController.updateBook
   );
 
   /* DELETE book. */
   app.delete(
     "/books/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    // [authJwt.verifyToken, authJwt.isAdmin],
     bookController.deleteBook
   );
 
@@ -41,24 +49,47 @@ module.exports = function(app) {
   /* REGISTER user. */
   app.post(
     "/register",
-    [
-      verifySignUp.checkDuplicateUserNameOrEmail,
-      verifySignUp.checkRolesExisted
-    ],
+    // [
+    //   verifySignUp.checkDuplicateUserNameOrEmail,
+    //   verifySignUp.checkRolesExisted
+    // ],
     authController.signup
   );
   /* LOGIN user. */
   app.post("/login", authController.signin);
 
+  /* Update Role user. */
+  app.put("/update", userController.userUpdate);
+
   /* SHOW all users. */
-  app.get("/users", [authJwt.verifyToken], userController.users);
+  app.get(
+    "/users",
+    // [authJwt.verifyToken],
+
+    userController.users
+  );
+
+  /* SHOW user by ID*/
+  app.get(
+    "/users/:id",
+    // [authJwt.verifyToken],
+    userController.userContent
+  );
 
   ///////////////////////////ini untuk ORDER///////////////////////////////////////////////////
   /* GET all orders. */
-  app.get("/orders", [authJwt.verifyToken], orderController.orders);
+  app.get(
+    "/orders",
+    // [authJwt.verifyToken],
+    orderController.orders
+  );
 
   /* GET order by user ID. */
-  app.get("/orders/:id", [authJwt.verifyToken], orderController.getOrder);
+  app.get(
+    "/orders/:id",
+    // [authJwt.verifyToken],
+    orderController.getOrder
+  );
 
   /* ADD order. */
   app.post("/orders/:id", [authJwt.verifyToken], orderController.ordering);

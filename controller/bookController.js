@@ -5,14 +5,24 @@ const asyncMiddleware = require("express-async-handler");
 exports.addbook = asyncMiddleware(async (req, res) => {
   // Add book to Database
   const book = await Book.create({
-    title: req.body.title,
-    author: req.body.author,
-    page: req.body.page,
-    language: req.body.language,
-    publisher_id: req.body.publisher_id
+    title: req.body.data.title,
+    author: req.body.data.author,
+    page: req.body.data.page,
+    language: req.body.data.language,
+    publisher_id: req.body.data.publisher_id
   });
   res.status(201).send({
     status: "New book added successfully!"
+  });
+});
+
+//delete book by id
+exports.deleteBook = asyncMiddleware(async (req, res) => {
+  console.log("ini idnya" + req.params.id);
+  const book_id = req.params.id;
+  const book = await Book.destroy({ where: { id: book_id } });
+  res.status(201).send({
+    status: "Book deleted!"
   });
 });
 
@@ -35,31 +45,23 @@ exports.updateBook = asyncMiddleware(async (req, res) => {
 
 //show book by id
 exports.showBook = asyncMiddleware(async (req, res) => {
-  await Book.findOne({
+  const book = await Book.findOne({
     where: { id: req.params.id },
     attributes: ["title", "author", "page", "language", "publisher_id"]
   });
   res.status(200).json({
     description: "Showing book",
-    user: user
+    data: book
   });
 });
 
 //show all books
 exports.showAll = asyncMiddleware(async (req, res) => {
   const book = await Book.findAll({
-    attributes: ["title", "author", "page", "language", "publisher_id"]
+    attributes: ["id", "title", "author", "page", "language", "publisher_id"]
   });
   res.status(200).json({
     description: "Showing all book",
-    book: book
-  });
-});
-
-//delete book by id
-exports.deleteBook = asyncMiddleware(async (req, res) => {
-  await Book.destroy({ where: { id: req.params.id } });
-  res.status(201).send({
-    status: "Book deleted successfully!"
+    data: book
   });
 });

@@ -5,7 +5,7 @@ const asyncMiddleware = require("express-async-handler");
 
 exports.users = asyncMiddleware(async (req, res) => {
   const user = await User.findAll({
-    attributes: ["name", "username", "email"],
+    attributes: ["id", "name", "username", "email"],
     include: [
       {
         model: Role,
@@ -18,13 +18,13 @@ exports.users = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "All User",
-    user: user
+    data: user
   });
 });
 
 exports.userContent = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
-    where: { id: req.userId },
+    where: { id: req.params.id },
     attributes: ["name", "username", "email"],
     include: [
       {
@@ -37,9 +37,33 @@ exports.userContent = asyncMiddleware(async (req, res) => {
     ]
   });
   res.status(200).json({
-    description: "User Content Page",
-    user: user
+    data: user
   });
+});
+
+//update user role by id
+exports.userUpdate = asyncMiddleware(async (req, res) => {
+  const user = await User.findOne({
+    where: { id: req.params.id },
+    attributes: ["name", "username", "email"],
+    include: [
+      {
+        model: Role,
+        attributes: ["id", "name"],
+        through: {
+          attributes: ["userId", "roleId"]
+        }
+      }
+    ]
+  });
+  const roles = await Role.findAll({
+    where: {
+      name: {
+        [Op.or]: req.body.roles
+      }
+    }
+  });
+  await user.setRoles(roles);
 });
 
 exports.adminBoard = asyncMiddleware(async (req, res) => {

@@ -35,7 +35,7 @@ exports.orders = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "All Order",
-    user: user
+    data: user
   });
 });
 
@@ -57,6 +57,6 @@ exports.getOrder = asyncMiddleware(async (req, res) => {
   console.log("tes eror bisa kali");
   res.status(200).json({
     description: "User order page",
-    user: user
+    data: user
   });
 });
