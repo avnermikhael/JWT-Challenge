@@ -8,10 +8,10 @@ exports.ordering = asyncMiddleware(async (req, res) => {
   // Save order to Database
   console.log("Processing func -> Ordering");
   const user = await User.findOne({
-    where: { id: req.userId }
+    where: { id: req.params.id_user }
   });
   const books = await Book.findOne({
-    where: { id: req.params.id }
+    where: { id: req.params.id_buku }
   });
   await user.addBooks(books);
   res.status(201).send({
@@ -42,7 +42,7 @@ exports.orders = asyncMiddleware(async (req, res) => {
 //find order by user id
 exports.getOrder = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
-    where: { id: req.userId },
+    where: { id: req.params.id },
     attributes: ["name", "username", "email"],
     include: [
       {
@@ -54,9 +54,7 @@ exports.getOrder = asyncMiddleware(async (req, res) => {
       }
     ]
   });
-  console.log("tes eror bisa kali");
   res.status(200).json({
-    description: "User order page",
     data: user
   });
 });

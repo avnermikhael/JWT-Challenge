@@ -92,7 +92,11 @@ module.exports = function(app) {
   );
 
   /* ADD order. */
-  app.post("/orders/:id", [authJwt.verifyToken], orderController.ordering);
+  app.post(
+    "/orders/:id_buku/:id_user",
+    // [authJwt.verifyToken],
+    orderController.ordering
+  );
 
   // error handler 404
   app.use(function(req, res, next) {
