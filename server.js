@@ -15,7 +15,7 @@ require("./router/router.js")(app);
 // // force: true will drop the table if it already exists (comment this part after first run, to disable migration)
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and Resync with { force: true }");
-//   initial();
+//   // initial();
 // });
 
 // Create a Server

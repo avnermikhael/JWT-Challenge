@@ -59,7 +59,7 @@ module.exports = function(app) {
   app.post("/login", authController.signin);
 
   /* Update Role user. */
-  app.put("/update", userController.userUpdate);
+  app.put("/update/:id", userController.userUpdate);
 
   /* SHOW all users. */
   app.get(
