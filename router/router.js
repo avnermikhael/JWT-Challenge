@@ -1,57 +1,33 @@
 const verifySignUp = require("./verifySignUp");
-const authJwt = require("./verifyJwtToken");
-const bookAuth = require("./verifyBook");
+
 const authController = require("../controller/authController.js");
 const userController = require("../controller/userController.js");
-const orderController = require("../controller/orderController.js");
-const bookController = require("../controller/bookController.js");
+const commetController = require("../controller/commentcontroller.js");
+const articleController = require("../controller/articleController.js");
 
 module.exports = function(app) {
   ///////////////////////////////////ini untuk BOOK/////////////////////////////////////////
-  /* GET book. */
-  app.get(
-    "/books",
-    // [authJwt.verifyToken],
-    bookController.showAll
-  );
+  /* GET all article. */
+  app.get("/articles", articleController.showAll);
 
-  /* GET book by ID. */
-  app.get(
-    "/books/:id",
-    // [authJwt.verifyToken],
-    bookController.showBook
-  );
+  /* GET article by user ID. */
+  app.get("/article/:id", articleController.showArticle);
 
-  /* ADD book. */
-  app.post(
-    "/books",
-    // [authJwt.verifyToken, authJwt.isAdmin],
-    // bookAuth.checkDuplicateBookAndAuthor,
-    bookController.addbook
-  );
+  /* ADD article. */
+  app.post("/addarticle/:id", articleController.addArticle);
 
-  /* UPDATE book. */
-  app.put(
-    "/books/:id",
-    // [authJwt.verifyToken, authJwt.isAdmin],
-    // bookAuth.checkDuplicateBookAndAuthor,
-    bookController.updateBook
-  );
+  /* UPDATE article status. */
+  app.put("/article/:id", articleController.updateArticle);
 
-  /* DELETE book. */
-  app.delete(
-    "/books/:id",
-    // [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.deleteBook
-  );
+  /* DELETE article. */
+  app.delete("/deletearticle/:id", articleController.deleteArticle);
 
   ////////////////////////////////////ini untuk USER/////////////////////////////////////////////
   /* REGISTER user. */
   app.post(
     "/register",
     // [
-    //   verifySignUp.checkDuplicateUserNameOrEmail,
-    //   verifySignUp.checkRolesExisted
+    //   verifySignUp.checkDuplicateUserNameOrEmail
     // ],
     authController.signup
   );
@@ -77,26 +53,29 @@ module.exports = function(app) {
   );
 
   ///////////////////////////ini untuk ORDER///////////////////////////////////////////////////
-  /* GET all orders. */
-  app.get(
-    "/orders",
-    // [authJwt.verifyToken],
-    orderController.orders
-  );
+
+  /* DELETE comment. */
+  app.delete("/comments/:id", commetController.deleteComment);
 
   /* GET order by user ID. */
   app.get(
-    "/orders/:id",
+    "/orders/:id"
     // [authJwt.verifyToken],
-    orderController.getOrder
+    // orderController.getOrder
   );
 
-  /* ADD order. */
+  /* ADD comment. */
   app.post(
-    "/orders/:id_buku/:id_user",
+    "/comments/:user_id/:article_id",
     // [authJwt.verifyToken],
-    orderController.ordering
+    commetController.addComment
   );
+
+  /* UPDATE comment status. */
+  app.put("/comments/:id", commetController.updateComment);
+
+  /* SHOW comments by article ID. */
+  app.get("/comments/:id", commetController.showComments);
 
   // error handler 404
   app.use(function(req, res, next) {

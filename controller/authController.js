@@ -14,8 +14,8 @@ exports.signup = asyncMiddleware(async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
-    admin: true,
-    status: true
+    admin: false,
+    status: false
   });
   res.status(201).send({
     status: "User registered successfully!"
