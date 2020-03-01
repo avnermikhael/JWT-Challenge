@@ -2,7 +2,7 @@ const verifySignUp = require("./verifySignUp");
 
 const authController = require("../controller/authController.js");
 const userController = require("../controller/userController.js");
-const commetController = require("../controller/commentcontroller.js");
+const commentController = require("../controller/commentcontroller.js");
 const articleController = require("../controller/articleController.js");
 
 module.exports = function(app) {
@@ -11,31 +11,29 @@ module.exports = function(app) {
   app.get("/articles", articleController.showAll);
 
   /* GET article by user ID. */
-  app.get("/article/:id", articleController.showArticle);
+  app.get("/articles/:id", articleController.showArticle);
 
   /* ADD article. */
-  app.post("/addarticle/:id", articleController.addArticle);
+  app.post("/adticles/:id", articleController.addArticle);
 
   /* UPDATE article status. */
-  app.put("/article/:id", articleController.updateArticle);
+  app.put("/articles/:id", articleController.updateArticle);
 
   /* DELETE article. */
-  app.delete("/deletearticle/:id", articleController.deleteArticle);
+  app.delete("/articles/:id", articleController.deleteArticle);
 
   ////////////////////////////////////ini untuk USER/////////////////////////////////////////////
   /* REGISTER user. */
   app.post(
     "/register",
-    // [
-    //   verifySignUp.checkDuplicateUserNameOrEmail
-    // ],
+    [verifySignUp.checkDuplicateUserNameOrEmail],
     authController.signup
   );
   /* LOGIN user. */
   app.post("/login", authController.signin);
 
   /* Update Role user. */
-  app.put("/update/:id", userController.userUpdate);
+  app.put("/users/:id", userController.userUpdate);
 
   /* SHOW all users. */
   app.get(
@@ -55,7 +53,7 @@ module.exports = function(app) {
   ///////////////////////////ini untuk ORDER///////////////////////////////////////////////////
 
   /* DELETE comment. */
-  app.delete("/comments/:id", commetController.deleteComment);
+  app.delete("/comments/:id", commentController.deleteComment);
 
   /* GET order by user ID. */
   app.get(
@@ -68,14 +66,14 @@ module.exports = function(app) {
   app.post(
     "/comments/:user_id/:article_id",
     // [authJwt.verifyToken],
-    commetController.addComment
+    commentController.addComment
   );
 
   /* UPDATE comment status. */
-  app.put("/comments/:id", commetController.updateComment);
+  app.put("/comments/:id", commentController.updateComment);
 
   /* SHOW comments by article ID. */
-  app.get("/comments/:id", commetController.showComments);
+  app.get("/comments/:id", commentController.showComments);
 
   // error handler 404
   app.use(function(req, res, next) {
