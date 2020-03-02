@@ -7,8 +7,8 @@ exports.addArticle = asyncMiddleware(async (req, res) => {
   // Add article to Database
   const userId = req.params.id;
   await Article.create({
-    title: req.body.title,
-    content: req.body.content,
+    title: req.body.newArticle.title,
+    content: req.body.newArticle.content,
     status: false,
     userId: userId
   });
@@ -41,18 +41,24 @@ exports.updateArticle = asyncMiddleware(async (req, res) => {
 
 //show article by user id
 exports.showArticle = asyncMiddleware(async (req, res) => {
-  const user = await User.findOne({
+  const article = await Article.findAll({
+    where: { userId: req.params.id },
+    attributes: ["id", "title", "content", "userId", "status"]
+  });
+
+  res.status(200).json({
+    data: article
+  });
+});
+
+//show article by user id
+exports.showOneArticle = asyncMiddleware(async (req, res) => {
+  const article = await Article.findOne({
     where: { id: req.params.id },
-    attributes: ["name", "username", "email"],
-    include: [
-      {
-        model: Article,
-        attributes: ["title", "content"]
-      }
-    ]
+    attributes: ["id", "title", "content", "status"]
   });
   res.status(200).json({
-    data: user
+    data: article
   });
 });
 
@@ -60,7 +66,19 @@ exports.showArticle = asyncMiddleware(async (req, res) => {
 exports.showAll = asyncMiddleware(async (req, res) => {
   const article = await Article.findAll({
     where: { status: false },
-    attributes: ["id", "title", "content", "userId"]
+    attributes: ["id", "title", "content", "userId", "status"]
+  });
+  res.status(200).json({
+    description: "Showing all articles",
+    data: article
+  });
+});
+
+//show all active articles
+exports.showAllActive = asyncMiddleware(async (req, res) => {
+  const article = await Article.findAll({
+    where: { status: true },
+    attributes: ["id", "title", "content", "userId", "status"]
   });
   res.status(200).json({
     description: "Showing all articles",

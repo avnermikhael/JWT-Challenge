@@ -7,14 +7,20 @@ const articleController = require("../controller/articleController.js");
 
 module.exports = function(app) {
   ///////////////////////////////////ini untuk BOOK/////////////////////////////////////////
-  /* GET all article. */
+  /* GET all inactive article. */
   app.get("/articles", articleController.showAll);
 
+  /* GET all active article. */
+  app.get("/activearticles", articleController.showAllActive);
+
   /* GET article by user ID. */
-  app.get("/articles/:id", articleController.showArticle);
+  app.get("/article/:id", articleController.showArticle);
+
+  /* GET article by ID. */
+  app.get("/articles/:id", articleController.showOneArticle);
 
   /* ADD article. */
-  app.post("/adticles/:id", articleController.addArticle);
+  app.post("/articles/:id", articleController.addArticle);
 
   /* UPDATE article status. */
   app.put("/articles/:id", articleController.updateArticle);
