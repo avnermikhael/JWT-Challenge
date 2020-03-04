@@ -25,6 +25,9 @@ module.exports = function(app) {
   /* UPDATE article status. */
   app.put("/articles/:id", articleController.updateArticle);
 
+  /* SUSPEND article. */
+  app.put("/suspendarticles/:id", articleController.suspendArticle);
+
   /* DELETE article. */
   app.delete("/articles/:id", articleController.deleteArticle);
 
@@ -61,13 +64,6 @@ module.exports = function(app) {
   /* DELETE comment. */
   app.delete("/comments/:id", commentController.deleteComment);
 
-  /* GET order by user ID. */
-  app.get(
-    "/orders/:id"
-    // [authJwt.verifyToken],
-    // orderController.getOrder
-  );
-
   /* ADD comment. */
   app.post(
     "/comments/:user_id/:article_id",
@@ -80,6 +76,9 @@ module.exports = function(app) {
 
   /* SHOW comments by article ID. */
   app.get("/comments/:id", commentController.showComments);
+
+  /* SHOW all inactive comments */
+  app.get("/inactivecomments", commentController.showInactiveComments);
 
   // error handler 404
   app.use(function(req, res, next) {

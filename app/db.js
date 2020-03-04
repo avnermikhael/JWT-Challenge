@@ -22,11 +22,23 @@ db.user.hasMany(db.article, {
   foreignKey: "userId"
 });
 
+db.article.belongsTo(db.user, {
+  foreignKey: "userId"
+});
+
 db.user.hasMany(db.comment, {
   foreignKey: "userId"
 });
 
+db.comment.belongsTo(db.user, {
+  foreignKey: "userId"
+});
+
 db.article.hasMany(db.comment, {
+  foreignKey: "articleId"
+});
+
+db.comment.belongsTo(db.article, {
   foreignKey: "articleId"
 });
 

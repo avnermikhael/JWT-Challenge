@@ -39,6 +39,19 @@ exports.updateArticle = asyncMiddleware(async (req, res) => {
   });
 });
 
+//suspend article by id
+exports.suspendArticle = asyncMiddleware(async (req, res) => {
+  await Article.update(
+    {
+      status: false
+    },
+    { where: { id: req.params.id } }
+  );
+  res.status(201).send({
+    status: "Article posted in website!"
+  });
+});
+
 //show article by user id
 exports.showArticle = asyncMiddleware(async (req, res) => {
   const article = await Article.findAll({
@@ -62,7 +75,7 @@ exports.showOneArticle = asyncMiddleware(async (req, res) => {
   });
 });
 
-//show all articles
+//show all inactive articles
 exports.showAll = asyncMiddleware(async (req, res) => {
   const article = await Article.findAll({
     where: { status: false },
@@ -78,7 +91,13 @@ exports.showAll = asyncMiddleware(async (req, res) => {
 exports.showAllActive = asyncMiddleware(async (req, res) => {
   const article = await Article.findAll({
     where: { status: true },
-    attributes: ["id", "title", "content", "userId", "status"]
+    attributes: ["id", "title", "content", "userId", "status"],
+    include: [
+      {
+        model: User,
+        attributes: ["id", "username"]
+      }
+    ]
   });
   res.status(200).json({
     description: "Showing all articles",
