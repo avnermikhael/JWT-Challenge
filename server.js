@@ -3,10 +3,9 @@ var app = express();
 var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var cors = require("cors");
+
 app.use(cors());
-
 app.use(bodyParser.json());
-
 app.use(morgan("common"));
 require("./router/router.js")(app);
 
