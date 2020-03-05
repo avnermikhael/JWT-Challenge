@@ -85,19 +85,15 @@ module.exports = function(app) {
   app.get("/inactivecomments", commentController.showInactiveComments);
 
   app.post("/upload", function(req, res) {
-    console.log(req.files.title);
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded.");
     }
-
     let sampleFile = req.files.file;
-
     let file_name = Date.now() + "_" + sampleFile.name;
     sampleFile.mv(`./public/uploads/${file_name}`, function(err) {
       if (err) return res.status(500).send(err);
       res.status(200).send({
         status: "File uploaded!",
-        title: req.body.title,
         url: file_name
       });
     });

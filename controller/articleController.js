@@ -79,7 +79,13 @@ exports.showOneArticle = asyncMiddleware(async (req, res) => {
 exports.showAll = asyncMiddleware(async (req, res) => {
   const article = await Article.findAll({
     where: { status: false },
-    attributes: ["id", "title", "content", "userId", "status"]
+    attributes: ["id", "title", "content", "userId", "status"],
+    include: [
+      {
+        model: User,
+        attributes: ["id", "username"]
+      }
+    ]
   });
   res.status(200).json({
     description: "Showing all articles",
