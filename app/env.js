@@ -1,5 +1,5 @@
 const env = {
-  database: "travel",
+  database: "bsp",
   username: "root",
   password: "wer",
   host: "localhost",

@@ -14,54 +14,6 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.user = require("../model/user.js")(sequelize, Sequelize);
-db.article = require("../model/article.js")(sequelize, Sequelize);
-db.comment = require("../model/comment.js")(sequelize, Sequelize);
-
-db.user.hasMany(db.article, {
-  foreignKey: "userId"
-});
-
-db.article.belongsTo(db.user, {
-  foreignKey: "userId"
-});
-
-db.user.hasMany(db.comment, {
-  foreignKey: "userId"
-});
-
-db.comment.belongsTo(db.user, {
-  foreignKey: "userId"
-});
-
-db.article.hasMany(db.comment, {
-  foreignKey: "articleId"
-});
-
-db.comment.belongsTo(db.article, {
-  foreignKey: "articleId"
-});
-
-// db.user.belongsToMany(db.book, {
-//   through: "book_user",
-//   foreignKey: "userId",
-//   otherKey: "bookId"
-// });
-// db.book.belongsToMany(db.user, {
-//   through: "book_user",
-//   foreignKey: "bookId",
-//   otherKey: "userId"
-// });
-
-// db.role.belongsToMany(db.user, {
-//   through: "user_roles",
-//   foreignKey: "roleId",
-//   otherKey: "userId"
-// });
-// db.user.belongsToMany(db.role, {
-//   through: "user_roles",
-//   foreignKey: "userId",
-//   otherKey: "roleId"
-// });
+db.activities = require("../model/activity.js")(sequelize, Sequelize);
 
 module.exports = db;
